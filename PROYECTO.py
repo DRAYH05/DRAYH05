@@ -1,1 +1,1 @@
-print ('hola mundo')
+print ('ya esta configurado git')
