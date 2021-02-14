@@ -1,6 +1,5 @@
-print ('ya esta configurado git')
-print ('esto es una mierda')
-print ('hacemos un cambio en el codigo con flow')
-print ('mario es el Master')
-print ('pito')
-sdafsdfsadfsafsafsaf
+print ('[1] Login')
+print ('[2] Crear cuenta')
+print ('[3] Ver hilos')
+print ('[0] Salir')
+print ('elija opcion: ')
