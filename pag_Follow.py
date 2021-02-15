@@ -5,10 +5,3 @@ print ('[3] Ver hilos')
 print ('[4] Nuevo hilo')
 print ('[0] Salir')
 print ('elija opcion: ')
-sd
-fsd
-s
-
-sd
-sd
-
