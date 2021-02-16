@@ -52,7 +52,7 @@ while not Salir:
             opcion1 = int(input('Elija una opcion: '))
             if opcion1 == 0:
                 Salir_hilos = True
-            #if si estas registrado creas un nuevo comentario
+            #si estas registrado creas un nuevo comentario
 
     elif opcion == 0:
         Salir = True
