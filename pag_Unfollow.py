@@ -20,6 +20,17 @@ if opcion == 1:
 
 
 if opcion == 2:
-    Usuario = int(input('Usuario: '))
-    Contraseña = int(input('Contraseña: '))
-    Contraseña1 = int(input('Repite contraseña: '))
+    Usuario = input('Usuario: ')
+    Contraseña = input('Contraseña: ')
+    Contraseña1 = input('Repite contraseña: ')
+
+
+if opcion == 3:
+    #comentario 1
+    #comentario 2
+    print('[1] Nuevo Comentario')
+    print('[0] Volver')
+
+
+if opcion == 4:
+    exit
