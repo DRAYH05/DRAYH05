@@ -3,7 +3,7 @@ import os
 
 def menu():
     os.system('cls')
-    print('Usuario: ' + user)
+    print('Usuario: ')
     print('[1] Login')
     print('[2] Crear cuenta')
     print('[3] Ver hilos')

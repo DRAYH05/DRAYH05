@@ -6,7 +6,8 @@ import jwt
 import time
 from datetime import datetime, timedelta
 from functools import wraps
-import os
+import subprocess
+
 #application = Flask(__name__)
 
 #API_URL = 'http://127.0.0.1:5000/'
@@ -23,8 +24,8 @@ query = {'user': 'Mario', 'pass': 'jesucristo96'}
 projection = {'is_admin': 1}
 result = mydb.Usuarios.find_one(query, projection)
 if(result == True):
-    os.system ("AdminMenu.py")
-
+   hola = subprocess.getoutput('C:/Users/admin-dam2/Documents/GitHub/Proyecto_Python/AdminMenu.py')
+   print(hola)
 
 
 
