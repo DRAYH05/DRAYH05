@@ -6,24 +6,27 @@ import jwt
 import time
 from datetime import datetime, timedelta
 from functools import wraps
-application = Flask(__name__)
+import os
+#application = Flask(__name__)
 
-API_URL = 'http://127.0.0.1:5000/'
-
+#API_URL = 'http://127.0.0.1:5000/'
+user = 0
+password = 0
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
 mydb = myclient["proyecto"]
 tabla = mydb["Usuarios"]
 
-@application.route('/posts', methods=['GET'])
-def get_posts():
+#@application.route('/posts', methods=['GET'])
+#def get_posts():
 
-    
+query = {'user': user, 'pass': password}
+projection = {'is_admin': 1}
+result = mydb.Usuarios.find_one(query, projection)
+if(result == true):
+    os.system ("")
 
-    query = {'user': 'Mario', 'pass': 'jesucristo96'}
-    projection = {'is_admin': 1}
-    result = mydb.Usuarios.find_one(query, projection)
-    print(result)
-    for x in tabla.find({},{ "name": 1, "address": 0 }):
-      print(x)
+for x in tabla.find({},{ "user": 1}):
+    print(x)
+
 
