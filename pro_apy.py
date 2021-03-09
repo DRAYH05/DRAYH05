@@ -10,8 +10,7 @@ import os
 #application = Flask(__name__)
 
 #API_URL = 'http://127.0.0.1:5000/'
-user = 0
-password = 0
+
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
 mydb = myclient["proyecto"]
@@ -20,13 +19,12 @@ tabla = mydb["Usuarios"]
 #@application.route('/posts', methods=['GET'])
 #def get_posts():
 
-query = {'user': user, 'pass': password}
+query = {'user': 'Mario', 'pass': 'jesucristo96'}
 projection = {'is_admin': 1}
 result = mydb.Usuarios.find_one(query, projection)
-if(result == true):
-    os.system ("")
+if(result == True):
+    os.system ("AdminMenu.py")
 
-for x in tabla.find({},{ "user": 1}):
-    print(x)
+
 
 
