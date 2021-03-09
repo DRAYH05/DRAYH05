@@ -27,17 +27,17 @@ while not Salir:
 
     OpcionAdmin = int(input('Elija una opcion: '))
 
-    if opcion == 1:
+    if OpcionAdmin == 1:
         user = input('Usuario: ')
         password = input('Contraseña: ')
 
 
-    elif opcion == 2:
+    elif OpcionAdmin == 2:
         user = input('Usuario: ')
         password = input('Contraseña: ')
         pass1 = input('Repite contraseña: ')
 
-    elif opcion == 3:
+    elif OpcionAdmin == 3:
         Salir_hilos = False
         os.system('cls')
         while not Salir_hilos:
@@ -47,5 +47,5 @@ while not Salir:
                 Salir_hilos = True
             #si estas registrado creas un nuevo comentario
 
-    elif opcion == 0:
+    elif OpcionAdmin == 0:
         Salir = True
