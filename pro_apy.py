@@ -7,6 +7,7 @@ import time
 from datetime import datetime, timedelta
 from functools import wraps
 import subprocess
+import AdminMenu
 
 #application = Flask(__name__)
 
@@ -24,8 +25,4 @@ query = {'user': 'Mario', 'pass': 'jesucristo96'}
 projection = {'is_admin': 1}
 result = mydb.Usuarios.find_one(query, projection)
 if(result == True):
-   hola = subprocess.getoutput('C:/Users/admin-dam2/Documents/GitHub/Proyecto_Python/AdminMenu.py')
-   print(hola)
-
-
-
+   
