@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request
 import pymongo
 import json
 import requests
@@ -6,7 +6,6 @@ import jwt
 import time
 from datetime import datetime, timedelta
 from functools import wraps
-import subprocess
 import AdminMenu
 
 #application = Flask(__name__)
@@ -21,8 +20,8 @@ tabla = mydb["Usuarios"]
 #@application.route('/posts', methods=['GET'])
 #def get_posts():
 
-query = {'user': 'Mario', 'pass': 'jesucristo96'}
+query = {'user': User, 'pass': password}
 projection = {'is_admin': 1}
 result = mydb.Usuarios.find_one(query, projection)
 if(result == True):
-   
+   AdminMenu.__file__
