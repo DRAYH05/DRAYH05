@@ -21,6 +21,8 @@ def root():
     return'API levantada'
 
 
+def obtener_id():
+    
 
 def comprobar_admin():
     query = {'user': username, 'pass': password}
@@ -31,7 +33,6 @@ def comprobar_admin():
 
 @app.route('/crear_usuario', methods=['POST'])
 def crear_usuarios():
-    #recivimos los datos del otro documento
     username = request.json['User']
     password = request.json['pass']
     if username and password:
@@ -50,7 +51,7 @@ def busqueda_usuario():
         if(x == None):
             return jsonify({'ERROR': 'usuario no encontrado'}), 400
         else:
-            return jsonify({'has iniciado sesion en':username}), 200
+            return jsonify({'sesion actual':username}), 200
     else:   
         return jsonify({'ERROR': 'rellene todos los campos'}), 400
 
@@ -68,7 +69,14 @@ def ver_hilo(id):
 @app.route('/ver_hilos/<id>', methods=['DELETE'])
 def delete_hilo(id):
     hilo = tabla_hilos.delete_one({'_id': ObjectId(id)})
-    return jsonify({'peticion aceptada, usuario eliminado'}), 200
+    return jsonify({'peticion aceptada': 'usuario eliminado'}), 200
+
+@app.route('/creacion_hilo', methods=['POST'])
+def crear_hilo():
+    
+
+
+
 
 
 
