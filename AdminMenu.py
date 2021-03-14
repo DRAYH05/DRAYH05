@@ -12,7 +12,8 @@ def menu():
 
 def menu_loged():
     os.system('cls')
-    print('Usuario: 'User)
+    print('Usuario: ' + User)
+    print('[1] Login')
     print('[2] Crear cuenta')
     print('[3] Ver hilos')
     print('[4] Nuevo hilo')
