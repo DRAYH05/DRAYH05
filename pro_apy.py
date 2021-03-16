@@ -20,17 +20,16 @@ def root():
 
 
 def obtener_id():
-    print('vuelva a introducir sus credenciales: ')
+    datos = request.get_json()
     username = request.json['user']
     password = request.json['password']
     if username and password:
         myquery = { 'user': username, "password": password}
-        x = tabla.find_one(myquery)
-        return jsonify({}), 200
+        x = tabla_users.find_one(myquery)
         if(x == None):
             return jsonify({'ERROR': 'usuario no encontrado'}), 400
         else:
-            id = tabla.find_one(myquery)
+            id = tabla_users.find_one(myquery, {'_id': 1})
             return jsonify({}), 200
     else:   
         return jsonify({'ERROR': 'rellene todos los campos'}), 400
@@ -48,10 +47,11 @@ def obtener_id():
 
 @app.route('/crear_usuario', methods=['POST'])
 def crear_usuarios():
+    creasion = request.get_json()
     username = request.json['user']
     password = request.json['password']
     if username and password:
-        if (tabla_users.find({'user':username}, {'user': 1}) == None):
+        if (tabla_users.find_one({'user':username}, {'user': 1}) == None):
             x = tabla_users.insert({'user':username, 'password':password, 'is_admin': False})
             return jsonify({}), 200
         else:
@@ -74,39 +74,8 @@ def busqueda_usuario():
     else:   
         return jsonify({'ERROR': 'rellene todos los campos'}), 400
 
-
-@app.route('/ver_hilos', methods=['GET'])
-def todos_hilos():
-    for x in tabla_hilos.find({}, {'_id': 1, 'user': 1, 'password':1}):
-        print(x)
-    return jsonify({}), 200
-
-@app.route('/ver_hilos/<id>', methods=['GET'])
-def ver_hilo(id):
-    hilo = tabla_hilos.find_one({'_id': ObjectId(id)})
-    for x in hilo:
-        print(x)
-    return jsonify({}), 200
-
-@app.route('/borrar_hilos/<id>', methods=['DELETE'])
-def delete_hilo(id):
-    hilo = tabla_hilos.delete_one({'_id': ObjectId(id)})
-    return jsonify({'peticion aceptada': 'usuario eliminado'}), 200
-
-@app.route('/creacion_hilo', methods=['POST'])
-def crear_hilo():
-    obtener_id()
-    nombre_hilo = request.json['nombre']
-    contenido = request.json['contenido']
-    if nombre_hilo and contenido:
-        x = tabla_hilos.insert({'nombre':nombre_hilo, 'id_usuario': id, 'contenido': contenido})
-        return jsonify({'hilo creado'}), 200
-    else:
-        return jsonify({'ERROR': 'la creacion del hilo no fue posible'}), 400
-
 @app.route('/visualizar_comentarios', methods=['GET'])
 def ver_comentarios():
-    ver_hilo()
     comentario = tabla_comentarios.find({'id_hilo': ObjectId(id)})
     for x in comentario:
         print(x)
@@ -114,18 +83,26 @@ def ver_comentarios():
 
 @app.route('/creacion_comentario', methods=['POST'])
 def crear_comentario():
-    ver_hilo()
     contenido_comentario = request.json['contenido']
     if contenido_comentario:
-        x = tabla_comentarios.insert({'id_hilo': id, 'Ccontenido': contenido_comentario})
+        x = tabla_comentarios.insert({'id_hilo': id, 'contenido': contenido_comentario})
         return jsonify({'comentario creado'}), 200
     else:
         return jsonify({'ERROR': 'la creacion del comentario no fue posible'}), 400
 
 @app.route('/borrar_comentario/<id>', methods=['DELETE'])
 def delete_comentario(id):
-    comentario = tabla_comentarios.delete_one({'_id': ObjectId(id)})
-    return jsonify({'peticion aceptada': 'usuario eliminado'}), 200
+    tabla_comentarios.delete_one({'_id': ObjectId(id)})
+    return jsonify({'peticion aceptada': 'comentario eliminado'}), 200
+
+@app.route('/eliminar_hilo', methods=['DELETE'])
+def delete_hilo():
+    datos = request.get_json()
+    id_delete = request.json['id_hilo']
+    tabla_hilos.delete_one({'id_hilo': id_delete})
+    return jsonify({'peticion aceptada': 'hilo eliminado'}), 200
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

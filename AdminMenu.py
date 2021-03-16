@@ -3,7 +3,7 @@ import requests
 import pymongo
 API_URL = 'http://127.0.0.1:5000/'
 
-
+user = None
 def comprobar_admin():
     query = {'user': username, 'password': password}
     projection = {'is_admin': 1}
@@ -17,19 +17,10 @@ def menu():
     print('[1] Login')
     print('[2] Crear cuenta')
     print('[3] Ver hilos')
-    print('[4] Nuevo hilo')
+    print('[4] eliminar hilo')
     print('[0] Salir')
 
 
-def menu_loged():
-    admin_option = int(input('\nopcion: '))
-    os.system('cls')
-    print('Usuario: ' + user)
-    print('[1] Login')
-    print('[2] Crear cuenta')
-    print('[3] Ver hilos')
-    print('[4] Nuevo hilo')
-    print('[0] Salir')
 
 def login():
     user = str(input('usuario: '))
@@ -37,12 +28,46 @@ def login():
     loginn = {'user':user, 'password': password}
     prueba = requests.get(API_URL + 'login', json = loginn)
     if prueba.status_code == 200:
-        print('todo gucci')
+        print('todo gucci, usuario conectado: ' + user)
         input(' ')
     else:
-        print('error amigo T_T')
+        print('error amigo T_T, vuelve a intentarlo')
         input(' ')
 
+def creacion_cuenta():
+    user = str(input('introduzca un nuevo usuario:' ))
+    password = str(input('introduzca una nueva contraseña para el usuario nuevo: ' ))
+    password1 = str(input('repita la contraseña: '))
+    if password != password1:
+        print('error, las contraseñas no coninciden')
+        input(' ')
+    else:
+        creasion = {'user':user, 'password': password}
+        prueba = requests.post(API_URL + 'crear_usuario', json = creasion)
+        if prueba.status_code == 200:
+            print('usuario creado')
+            input(' ')
+
+def ver_hilos():
+    print("[1]- Python")
+    print("[2]- AWS")
+    print("[3]- Acceso a Datos")
+    print("[4]- Borrar comentario")
+    print("[5]- Añadir comentario")
+    opciones = int(input('elija opcion: '))
+
+
+def eliminar_hilo():
+    id_delete = int(input('id del hilo a eliminar '))
+    if id_delete > 3:
+        print('no existe')
+        input(' ')
+    else :
+        delete_hilo = {'id_hilo': id_delete}
+        prueba = requests.delete(API_URL + 'eliminar_hilo', json = delete_hilo)
+        if prueba.status_code == 200:
+            print('hilo eliminado')
+            input(' ')
 
 Salir = False
 
@@ -50,27 +75,23 @@ while not Salir:
 
     # mostrar el menu
     menu()
-
     OpcionAdmin = int(input('Elija una opcion: '))
 
     if OpcionAdmin == 1:
+
         login()
 
-
     elif OpcionAdmin == 2:
-        User = str(input('Usuario: '))
-        password = str(input('Contraseña: '))
-        password1 = str(input('Repite contraseña: '))
+
+        creacion_cuenta()
 
     elif OpcionAdmin == 3:
-        Salir_hilos = False
-        os.system('cls')
-        while not Salir_hilos:
-            menu_hilos()
-            opcion1 = int(input('Elija una opcion: '))
-            if opcion1 == 0:
-                Salir_hilos = True
-            #si estas registrado creas un nuevo comentario
+
+        ver_hilos()
+
+    elif OpcionAdmin == 4:
+
+        eliminar_hilo()
 
     elif OpcionAdmin == 0:
         Salir = True
