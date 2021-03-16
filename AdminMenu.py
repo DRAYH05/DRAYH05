@@ -1,4 +1,15 @@
 import os
+import requests
+import pymongo
+API_URL = 'http://127.0.0.1:5000/'
+
+
+def comprobar_admin():
+    query = {'user': username, 'password': password}
+    projection = {'is_admin': 1}
+    result = mydb.Usuarios.find_one(query, projection)
+    #if (result == true):
+        #........
 
 
 def menu():
@@ -11,19 +22,26 @@ def menu():
 
 
 def menu_loged():
+    admin_option = int(input('\nopcion: '))
     os.system('cls')
-    print('Usuario: ' + User)
+    print('Usuario: ' + user)
     print('[1] Login')
     print('[2] Crear cuenta')
     print('[3] Ver hilos')
     print('[4] Nuevo hilo')
     print('[0] Salir')
 
-def menu_hilos():
-    # comentario 1
-    # comentario 2
-    print('[1] Nuevo Comentario')
-    print('[0] Volver')
+def login():
+    user = str(input('usuario: '))
+    password = str(input('contraseña: '))
+    loginn = {'user':user, 'password': password}
+    prueba = requests.get(API_URL + 'login', json = loginn)
+    if prueba.status_code == 200:
+        print('todo gucci')
+        input(' ')
+    else:
+        print('error amigo T_T')
+        input(' ')
 
 
 Salir = False
@@ -36,8 +54,7 @@ while not Salir:
     OpcionAdmin = int(input('Elija una opcion: '))
 
     if OpcionAdmin == 1:
-        User = str(input('Usuario: '))
-        password = str(input('Contraseña: '))
+        login()
 
 
     elif OpcionAdmin == 2:

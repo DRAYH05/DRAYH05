@@ -21,70 +21,74 @@ def root():
 
 def obtener_id():
     print('vuelva a introducir sus credenciales: ')
-    username = request.json['User']
-    password = request.json['pass']
+    username = request.json['user']
+    password = request.json['password']
     if username and password:
-        myquery = { 'user': username, "pass": password}
+        myquery = { 'user': username, "password": password}
         x = tabla.find_one(myquery)
         return jsonify({}), 200
         if(x == None):
             return jsonify({'ERROR': 'usuario no encontrado'}), 400
         else:
             id = tabla.find_one(myquery)
-            return jsonify({'sesion actual':username}), 200
+            return jsonify({}), 200
     else:   
         return jsonify({'ERROR': 'rellene todos los campos'}), 400
     
 
-def comprobar_admin():
-    username = request.json['User']
-    password = request.json['pass']
-    query = {'User': username, 'pass': password}
-    projection = {'is_admin': 1}
-    result = mydb.Usuarios.find_one(query, projection)
+#def comprobar_admin():
+    #username = request.json['user']
+    #password = request.json['password']
+    #query = {'user': username, 'password': password}
+    #projection = {'is_admin': 1}
+    #result = mydb.Usuarios.find_one(query, projection)
     #if (result == true):
         #........
     
 
 @app.route('/crear_usuario', methods=['POST'])
 def crear_usuarios():
-    username = request.json['User']
-    password = request.json['pass']
+    username = request.json['user']
+    password = request.json['password']
     if username and password:
-        if (tabla_users.find({'User':username}, {'User': 1}) == None):
-            x = tabla_users.insert({'User':username, 'pass':password, 'is_admin': False})
-            return jsonify({'usuario creado'}), 200
+        if (tabla_users.find({'user':username}, {'user': 1}) == None):
+            x = tabla_users.insert({'user':username, 'password':password, 'is_admin': False})
+            return jsonify({}), 200
         else:
-            return jsonify({'usuario repetido'}), 400
+            return jsonify({'ERROR': 'usuario repetido'}), 400
     else:
         return jsonify({'ERROR': 'la creacion del usuario especificado no fue posible'}), 400
 
 @app.route('/login', methods=['GET'])
 def busqueda_usuario():
-    username = request.json['User']
-    password = request.json['pass']
+    login = request.get_json()
+    username = request.json['user']
+    password = request.json['password']
     if username and password:
-        myquery = { 'user': username, "pass": password}
-        x = tabla.find_one(myquery)
+        myquery = { 'user': username, "password": password}
+        x = tabla_users.find_one(myquery)
         if(x == None):
             return jsonify({'ERROR': 'usuario no encontrado'}), 400
         else:
-            return jsonify({'sesion actual':username}), 200
+            return jsonify({}), 200
     else:   
         return jsonify({'ERROR': 'rellene todos los campos'}), 400
 
 
 @app.route('/ver_hilos', methods=['GET'])
 def todos_hilos():
-    for x in tabla_hilos.find({}, {'_id': 1, 'User': 1, 'pass':1}):
+    for x in tabla_hilos.find({}, {'_id': 1, 'user': 1, 'password':1}):
         print(x)
+    return jsonify({}), 200
 
 @app.route('/ver_hilos/<id>', methods=['GET'])
 def ver_hilo(id):
     hilo = tabla_hilos.find_one({'_id': ObjectId(id)})
-    return jsonify({'peticion aceptada': '\n' + hilo}), 200
+    for x in hilo:
+        print(x)
+    return jsonify({}), 200
 
-@app.route('/ver_hilos/<id>', methods=['DELETE'])
+@app.route('/borrar_hilos/<id>', methods=['DELETE'])
 def delete_hilo(id):
     hilo = tabla_hilos.delete_one({'_id': ObjectId(id)})
     return jsonify({'peticion aceptada': 'usuario eliminado'}), 200
