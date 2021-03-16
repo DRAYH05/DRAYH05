@@ -9,7 +9,7 @@ def comprobar_admin():
     projection = {'is_admin': 1}
     result = mydb.Usuarios.find_one(query, projection)
     #if (result == true):
-        #........
+        
 
 
 def menu():
@@ -48,6 +48,9 @@ def creacion_cuenta():
             print('usuario creado')
             input(' ')
 
+    
+
+
 def ver_hilos():
     print("[1]- Python")
     print("[2]- AWS")
@@ -55,19 +58,44 @@ def ver_hilos():
     print("[4]- Borrar comentario")
     print("[5]- Añadir comentario")
     opciones = int(input('elija opcion: '))
+    if opciones == 1:
+        id_comen = '1'
+        requests.get(API_URL + 'visualizar_comentarios/' + id_comen)
+        input('')
+    elif opciones == 2:
+        id_comen = '2'
+        requests.get(API_URL + 'visualizar_comentarios/' + id_comen)
+        input('')
+    elif opciones == 3:
+        id_comen = '3'
+        requests.get(API_URL + 'visualizar_comentarios/' + id_comen)
+        input('')
+    elif opciones == 4:
+        id_comen = str(input('introduzca el id del comentario a eliminar: '))
+        requests.delete(API_URL + 'borrar_comentario/' + id_comen)
+    elif opciones == 5:
+        id_comen = str(input('introduce el id del hilo que quieres comentar: '))
+        comentario = str(input('introduce el comentario en cuestion: '))
+        creasion = {'id_hilo':id_comen, 'contenido': comentario}
+        prueba = requests.post(API_URL + 'creacion_comentario', json = creasion)
+        if prueba.status_code == 200:
+            print('comentario creado')
+        else:
+            print('comentario no creado')
+
+        
 
 
 def eliminar_hilo():
-    id_delete = int(input('id del hilo a eliminar '))
-    if id_delete > 3:
-        print('no existe')
+    id_delete = input('id del hilo a eliminar ')
+    delete_hilo = {'id_hilo': id_delete}
+    prueba = requests.delete(API_URL + 'eliminar_hilo', json = delete_hilo)
+    if prueba.status_code == 200:
+        print('hilo eliminado')
         input(' ')
     else :
-        delete_hilo = {'id_hilo': id_delete}
-        prueba = requests.delete(API_URL + 'eliminar_hilo', json = delete_hilo)
-        if prueba.status_code == 200:
-            print('hilo eliminado')
-            input(' ')
+        print('error')
+        input('')
 
 Salir = False
 

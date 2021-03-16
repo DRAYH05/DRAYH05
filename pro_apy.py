@@ -4,6 +4,7 @@ import pymongo
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import json_util
 from bson.objectid import ObjectId
+import response
 app = Flask(__name__)
 app.config['API_MONGO'] = "mongodb://localhost:27017/"
 
@@ -74,18 +75,20 @@ def busqueda_usuario():
     else:   
         return jsonify({'ERROR': 'rellene todos los campos'}), 400
 
-@app.route('/visualizar_comentarios', methods=['GET'])
-def ver_comentarios():
-    comentario = tabla_comentarios.find({'id_hilo': ObjectId(id)})
-    for x in comentario:
-        print(x)
-    return jsonify({}), 200
+@app.route('/visualizar_comentarios/<id>', methods=['GET'])
+def ver_comentarios(id):
+    
+    comentarios = tabla_comentarios.find({'id_hilo': id})
+    response = json_util.dumps(comentarios)
+    return response
 
 @app.route('/creacion_comentario', methods=['POST'])
 def crear_comentario():
+    datos = request.get_json()
+    id_hilo_comen = request.json['id_hilo']
     contenido_comentario = request.json['contenido']
-    if contenido_comentario:
-        x = tabla_comentarios.insert({'id_hilo': id, 'contenido': contenido_comentario})
+    if contenido_comentario and id_hilo_comen:
+        x = tabla_comentarios.insert({'id_hilo': id_hilo_comen, 'contenido': contenido_comentario})
         return jsonify({'comentario creado'}), 200
     else:
         return jsonify({'ERROR': 'la creacion del comentario no fue posible'}), 400
